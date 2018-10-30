@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="personal.mybatisx.dao.UserDao">
+
+
+	<update id="update3" parameterType="list">
+		update t_user set name = '测listzhans' where phone in (
+		<foreach collection="list" item="xx" index="i" separator=",">
+			#{xx} 
+		</foreach>
+		)
+	</update>
+	
+	<update id="update6" >
+		update t_user set name = '测listzhans' where phone in (
+		<foreach collection="array" item="xx" index="i" separator=",">
+			#{xx} 
+		</foreach>
+		)
+	</update>
+	<insert id="saveList" parameterType="list">
+		insert into t_user (name,phone) values 
+		<foreach collection="list" index="i" item="u" separator=",">
+			(#{u.name},#{u.phone})
+		</foreach>
+		
+	</insert>
+		<insert id="saveList1" >
+		insert into t_user (name,phone) values 
+		<foreach collection="param1" index="i" item="u" separator=",">
+			(#{u.name},#{u.phone})
+		</foreach>
+		
+	</insert>
+	
+	
+	<resultMap type="personal.mybatisx.model.User" id="userHousesMap">
+		<id column="id" property="id"/>
+		<result property="name" column="name"/>
+		<result property="phone" column="phone"/>
+		<collection property="houses" column="id" select="findHouseById" />
+		<collection property="phones" column="id" select="findPhonesReturnedArray"/>			
+		
+		
+	</resultMap>
+	
+	<resultMap type="personal.mybatisx.model.House" id="houseMap">
+		<id property="id" column="id"/>
+		<result property="address" column="address"/>
+		<result property="color" column="color"/>
+		<result property="userId" column="user_id"/>
+	</resultMap>
+	
+
+	
+	<select id="findUserAndHouses" resultMap="userHousesMap">
+		select * from t_user where id = #{id}
+	</select>
+	
+	
+</mapper>

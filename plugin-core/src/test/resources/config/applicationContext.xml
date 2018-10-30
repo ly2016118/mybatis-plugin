@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:task="http://www.springframework.org/schema/task"  
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="personal.mybatisx">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+
+	<import resource="./spring-mybatis.xml" />
+	
+	<bean class="personal.mybatisx.prop.SecuirtyPropeties">
+		<property name="keyprops" >
+			<map>
+				<entry key="md5" value-ref="md5SecuritiesConfigratureBean"/>
+				<entry key="rsa" value-ref="rsaSecuritiesConfigratureBean"/>
+			</map>
+		</property>
+		
+	</bean>
+
+
+	<bean id="md5SecuritiesConfigratureBean" class="personal.mybatisx.prop.SecuritiesConfigratureBean">
+		<property name="id" value="md5"/>
+		<property name="signType" value="MD5"/>
+		<property name="simpleKey" value="123456"/>
+	</bean>
+	
+	<bean id="rsaSecuritiesConfigratureBean" class="personal.mybatisx.prop.SecuritiesConfigratureBean">
+		<property name="id" value="rsa"/>
+		<property name="signType" value="RSA"/>
+		<property name="priKey" value="MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKuhJi58c0dmNcMUB7lOZTDWpwccKqz9fZtvecyx2+fmvOS5mrKUX2j7TBh+SPw3KLRK+wX77iOC3sNyT/rqdJx4BICXYikf57cna51kTS/9ofgQTNZo9Tc00z2R7fLxoImFVsq5KnskVvgw8Ld2mDbYVGT5OeLlan6m11VHozSFAgMBAAECgYAp4KVHXHhoaIkfs2h7D6TjOM0CkB3dnfCjF505lABbYlKe4KbdghSRsheMNmwqlm7pJw5/FEyz/3/JYsAfMkwHZl/H+lxUJ4JFTcYS4ggKclcvBGRbR7A5YxK6mNG3rZxEt09m9IdRKmyHbc5HYlvGMvEA+kuTcPoP1ANCkDB+9QJBAPLGDaBh7+y8jzX9NztGjACL1r2hXBcSHhM1JHykDgCWUNmldJ4yswLOvNbh/rpj2rWHdmQ4+b8bCh0Nk26pLwMCQQC0+tp6D8q9hxEU3n/mq3pHcCzS/fYh/wArJB1ZSjTeiMyh9RULvS189ueKDqN3CwggD0pjjxMuMduSLOhj2pPXAkAn1UktFISqQjH5OMfUKPoVqNweFximDGn02tZWwRAvFnrDizs8LbNjdYpUc5Y4/ONIv6Y0QYjwyz34kF6tXIMDAkEAnOhwyyst56xWzvUphuBdH9rNwhCVeVwQ1VZ2a5e+xsFsSW6nVIosChA3JqcSan+SB9m58R92zbJEYDO3N/ul+QJBAMR7sWueZWH6FosWPFZCB82v+2T90Ay27H7jZ+u/mbdouD7eLVWAVE83JRClIL8gSd+J0OfM0YC3qxLF5xEkp4A="/>
+		<property name="pubKey" value="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCroSYufHNHZjXDFAe5TmUw1qcHHCqs/X2bb3nMsdvn5rzkuZqylF9o+0wYfkj8Nyi0SvsF++4jgt7Dck/66nSceASAl2IpH+e3J2udZE0v/aH4EEzWaPU3NNM9ke3y8aCJhVbKuSp7JFb4MPC3dpg22FRk+Tni5Wp+ptdVR6M0hQIDAQAB"/>
+	</bean>
+</beans>
+
