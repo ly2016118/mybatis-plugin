@@ -24,6 +24,7 @@ import personal.mybatisx.beans.Token;
 public class ExpressionResolver {
 
     private static final Pattern pattern = Pattern.compile("\\{(.+?)\\}");
+    private static final String LEFT_MID_BRACKET = "[";
 
     /**
      * 解析参数中可用的路径表达式
@@ -48,7 +49,7 @@ public class ExpressionResolver {
         
         Object originalObject =null;
         //数组，并且是第一次解析
-        if(fullName.startsWith("[")&&props.size()==0){
+        if(fullName.startsWith(LEFT_MID_BRACKET)&&props.size()==0){
             originalObject = metaObject.getOriginalObject();
             resolverIfStartWihtArray(props, originalObject, index, fullName);
             //判断是否有子节点
@@ -122,7 +123,7 @@ public class ExpressionResolver {
             // 是表达式，需要替换
             for (int i = 0; i < currentSize; i++) {
                 String newPropName = fullName.replace(index, i + "");
-                String nprop = newPropName.substring(0, newPropName.lastIndexOf("["));
+                String nprop = newPropName.substring(0, newPropName.lastIndexOf(LEFT_MID_BRACKET));
                 // 需要获得当前元素下子集合个数
                 MetaObject metaObjectForProperty = metaObject.metaObjectForProperty(nprop);
                 Object originalObject2 = metaObjectForProperty.getOriginalObject();
@@ -160,9 +161,9 @@ public class ExpressionResolver {
             String nprop = null;
             if (pt.hasNext()) {
                 nprop = newNameProp.replace(pt.getChildren(), "");
-                nprop = nprop.substring(0, nprop.lastIndexOf("["));
+                nprop = nprop.substring(0, nprop.lastIndexOf(LEFT_MID_BRACKET));
             } else {
-                nprop = newNameProp.substring(0, newNameProp.lastIndexOf("["));
+                nprop = newNameProp.substring(0, newNameProp.lastIndexOf(LEFT_MID_BRACKET));
             }
             // 需要获得当前元素下子集合个数
             MetaObject metaObjectForProperty = metaObject.metaObjectForProperty(nprop);
